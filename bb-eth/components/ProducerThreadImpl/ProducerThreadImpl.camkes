@@ -1,0 +1,14 @@
+component ProducerThreadImpl
+{
+	include "generatedtypes.h";
+
+	control;
+
+dataport simpletype data_source;
+
+consumes sig activator;
+
+
+
+
+}

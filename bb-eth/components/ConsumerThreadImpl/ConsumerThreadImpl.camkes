@@ -1,0 +1,10 @@
+
+component ConsumerThreadImpl
+{
+	include "generatedtypes.h";
+	control;
+	dataport simpletype data_sink;
+	consumes sig activator;
+    	dataport Buf uartmem;
+}
+

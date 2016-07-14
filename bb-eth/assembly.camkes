@@ -1,0 +1,45 @@
+
+import <std_connector.camkes>;
+import "components/timer/Timer.camkes";
+import "components/ProducerThreadImpl/ProducerThreadImpl.camkes";
+import "components/ConsumerThreadImpl/ConsumerThreadImpl.camkes";
+
+component UART{
+	hardware;
+	dataport Buf mem;
+}
+
+
+
+assembly {
+  composition {
+    	component Timerbase timerbase;
+    	component Timer timer;
+    	component UART drv;
+		
+	component ProducerThreadImpl Prod_Pinger;
+	component ConsumerThreadImpl Cons_PingMe;
+		
+	connection seL4SharedData connection0(from Prod_Pinger.data_source, to Cons_PingMe.data_sink);
+	connection seL4Notification notification0 (from timer.Prod_Pinger_activator, to Prod_Pinger.activator);
+	connection seL4Notification notification1 (from timer.Cons_PingMe_activator, to Cons_PingMe.activator);
+	connection seL4HardwareMMIO uart_mem (from Cons_PingMe.uartmem, to drv.mem);
+	connection seL4HardwareMMIO timer_mem (from timer.reg, to timerbase.reg);
+        connection seL4HardwareInterrupt timer_irq (from timerbase.irq, to timer.irq);
+
+	}
+	
+	configuration {
+
+
+connection0.from_access = "W";
+connection0.to_access = "R";
+
+
+timerbase.reg_attributes = "0x48040000:0x1000";
+timerbase.irq_attributes = 68;        
+drv.mem_attributes       = "0x48022000:0x1000";
+//drv.mem_attributes       = "0x44E09000:0x1000";
+
+    }
+} 

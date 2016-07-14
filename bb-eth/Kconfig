@@ -1,0 +1,5 @@
+config APP_BBETH
+    bool "Beaglebone Ethernet test"
+    default n
+        help
+            Test for the ethernet driver
