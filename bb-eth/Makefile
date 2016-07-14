@@ -1,4 +1,4 @@
-TARGETS := pingbeagleboneinstance.cdl
+TARGETS := bb-eth.cdl
 ADL := assembly.camkes
 
 ProducerThreadImpl_CFILES = components/ProducerThreadImpl/src/ProducerThreadImpl.c  components/ProducerThreadImpl/src/ping.c
