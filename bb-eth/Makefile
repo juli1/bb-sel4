@@ -15,4 +15,13 @@ ConsumerThreadImpl_HFILES = components/ConsumerThreadImpl/include/generatedtypes
                             components/ConsumerThreadImpl/lwip-1.4.0/ports/cpsw/include/locator.h
 Timer_CFILES = components/timer/src/timer.c
 
+
 include ${SOURCE_DIR}/../../tools/camkes/camkes.mk
+
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/ports/cpsw/include/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/src/include/ipv4/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/include/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/src/include/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/include/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/src/
