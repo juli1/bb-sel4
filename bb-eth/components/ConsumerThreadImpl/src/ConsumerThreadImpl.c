@@ -112,6 +112,35 @@ static void DMTimerIsr(void)
     flagIsr = TRUE;
 }
 
+unsigned int DMTimerWritePostedStatusGet(unsigned int baseAdd)
+{
+    /* Return the status of TWPS register */
+    return (HWREG(baseAdd + DMTIMER_TWPS));
+}
+
+
+#define DMTimerWaitForWrite(reg, baseAdd)   \
+            if(HWREG(baseAdd + DMTIMER_TSICR) & DMTIMER_TSICR_POSTED)\
+            while((reg & DMTimerWritePostedStatusGet(baseAdd)));
+
+
+
+void DMTimerModeConfigure(unsigned int baseAdd, unsigned int timerMode)
+{
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+
+    /* Clear the AR and CE field of TCLR */
+    HWREG(baseAdd + DMTIMER_TCLR) &= ~(DMTIMER_TCLR_AR | DMTIMER_TCLR_CE);
+
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+
+    /* Set the timer mode in TCLR register */
+    HWREG(baseAdd + DMTIMER_TCLR) |= (timerMode & (DMTIMER_TCLR_AR | 
+                                                   DMTIMER_TCLR_CE));
+}
+
 
 
 void DelayTimerSetup(void)
@@ -142,6 +171,35 @@ void DelayTimerSetup(void)
 
 }
 
+//static void AintcCPSWIntrSetUp(void)
+//{
+//    /* Enable IRQ for ARM (in CPSR)*/
+//    IntMasterIRQEnable();
+//
+//    IntAINTCInit();
+//    
+//    /* Register the Receive ISR for Core 0 */
+//    IntRegister(SYS_INT_3PGSWRXINT0, CPSWCore0RxIsr);
+  
+    /* Register the Transmit ISR for Core 0 */
+//    IntRegister(SYS_INT_3PGSWTXINT0, CPSWCore0TxIsr);
+    
+    /* Set the priority */
+//    IntPrioritySet(SYS_INT_3PGSWTXINT0, 0, AINTC_HOSTINT_ROUTE_IRQ);
+//    IntPrioritySet(SYS_INT_3PGSWRXINT0, 0, AINTC_HOSTINT_ROUTE_IRQ);
+
+    /* Enable the system interrupt */
+//    IntSystemEnable(SYS_INT_3PGSWTXINT0);
+//    IntSystemEnable(SYS_INT_3PGSWRXINT0);
+//}
+
+
+static void IpAddrDisplay(unsigned int ipAddr) 
+{
+    printf ("%d.%d.%d.%d", (ipAddr & 0xFF), ((ipAddr >> 8) & 0xFF),
+                       ((ipAddr >> 16) & 0xFF), ((ipAddr >> 24) & 0xFF));
+}
+
 
 
 unsigned int devmem;
@@ -154,6 +212,12 @@ void EVMMACAddrGet(unsigned int addrIdx, unsigned char *macAddr);
 
 static CPSW_PHY_PARAM_IF cpswPhyParam;
 static CPSW_CONF_IF cpswConfig;
+
+void delay(unsigned int milliSec)
+{
+printf("Need to implement delay function\n");
+}
+
 
 
 int run(void)
@@ -177,7 +241,8 @@ int run(void)
    EVMMACAddrGet(0, lwipIfPort1.macArray); 
    EVMMACAddrGet(1, lwipIfPort2.macArray); 
 
-   AintcCPSWIntrSetUp();
+   // FIXME: look at this function and setup correctly the IRQ
+   //AintcCPSWIntrSetUp();
    DelayTimerSetup();
 
    printf ("\n\rStarterWare Ethernet Application. Access the"
@@ -220,43 +285,8 @@ int run(void)
    }
 
    /* Initialize the sample httpd server. */
-   httpd_init();
+//   httpd_init();
 
-   cpswConfig.phy_param = &cpswPhyParam;
-
-   /* Loop forever.  For Switch Condigraton and interrupt handlers. */
-   while(1)
-   {
-      unsigned int switchConfig = 0;
-      unsigned char switchConfigInputHelp[] = "):  ";
-
-      if(initFlg)
-      {
-         printf("\n\r\n\r === CPSW Configurations === ");
-         printf("\n\r\n\r === Available PHY Configurations ===");
-         printf("\n\r\n\r1 - Configure Phy of a Port ");
-         printf("\n\r\n\r2 - Exit ");
-         initFlg = 0;
-      }
-
-      if (!initFlg)
-      {
-         printf("\n\r\n\r Select Switch Configuration (1 to %d",
-               CONFIG_SWITCH_EXIT_CMD);
-
-         switchConfig = UserValueInfoGet(1, CONFIG_SWITCH_EXIT_CMD, 0, FALSE,
-               switchConfigInputHelp);
-
-         printf("\n\r\n\rSwitch Configuration selected: %d\r\n",
-               switchConfig);
-
-         if(EnetLWIPSwitchConfiguration(switchConfig))
-            initFlg = 1;
-      }
-
-      if(switchConfig == CONFIG_SWITCH_EXIT_CMD)
-         break;
-   }
 
    /* Loop forever.  All the work is done in interrupt handlers. */
    while(1)

@@ -59,9 +59,12 @@ sys_prot_t
 sys_arch_protect(void)
 {
   sys_prot_t status;
+/**
+FIXME JD
   status = (IntMasterStatusGet() & 0xFF);
 
   IntMasterIRQDisable();
+*/
   return status;
 }
 
@@ -77,11 +80,17 @@ sys_arch_protect(void)
 void
 sys_arch_unprotect(sys_prot_t lev)
 {
+	/**
+	FIXME JD
+*/
+
   /* Only turn interrupts back on if they were originally on when the matching
      sys_arch_protect() call was made. */
+/*
   if((lev & 0x80) == 0) {
     IntMasterIRQEnable();
   } 
+*/
 }
 
 #endif /* SYS_LIGHTWEIGHT_PROT */

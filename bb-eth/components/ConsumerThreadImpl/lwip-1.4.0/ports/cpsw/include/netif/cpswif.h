@@ -42,8 +42,10 @@
  */
 #include "src/include/lwip/netif.h"
 
+
 #ifndef __CPSWIF_H__
 #define __CPSWIF_H__
+#include <stdio.h>
 
 /***************************************************************************/
 /*
@@ -80,8 +82,8 @@
 #define CPSW0_PORT_2_PHY_GIGABIT        TRUE
 #endif
 
-#include "consoleUtils.h"
-#define LWIP_PRINTF                     ConsoleUtilsPrintf
+
+#define LWIP_PRINTF                     printf
 
 #else
 #error Unsupported EVM !!!

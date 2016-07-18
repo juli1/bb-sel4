@@ -25,7 +25,7 @@
 ** separate pool for each memory. The alignment of pbuf pool to cache line 
 ** size is done in /ports/cpsw/include/arch/cc.h. 
 */
-#define LWIP_CACHE_ENABLED              
+//#define LWIP_CACHE_ENABLED              
 
 #define SOC_CACHELINE_SIZE_BYTES        64            /* Number of bytes in
                                                          a cache line */
