@@ -48,6 +48,10 @@
 extern "C" {
 #endif
 
+extern unsigned int prcm_mem;
+extern unsigned int control_mem;
+extern unsigned int dmtimer7_mem;
+
 /** Cache Line size in ARM Cortex-A8.                                         */
 #define SOC_CACHELINE_SIZE_MAX               (64)
 
@@ -83,7 +87,7 @@ extern "C" {
 #define SOC_DMTIMER_4_REGS                   (0x48044000)
 #define SOC_DMTIMER_5_REGS                   (0x48046000)
 #define SOC_DMTIMER_6_REGS                   (0x48048000)
-#define SOC_DMTIMER_7_REGS                   (0x4804A000)
+#define SOC_DMTIMER_7_REGS                   (dmtimer7_mem)
 
 /** @brief Base address of MMC memory mapped registers                        */
 #define SOC_MMCHS_0_REGS                     (0x48060000)
@@ -134,7 +138,7 @@ extern "C" {
 #define SOC_RTC_0_REGS                       (0x44E3E000)
 
 /** @brief Base addresses of PRCM memory mapped registers                     */
-#define SOC_PRCM_REGS                        (0x44E00000)
+#define SOC_PRCM_REGS                        (prcm_mem)
 #define SOC_CM_PER_REGS                      (SOC_PRCM_REGS + 0)
 #define SOC_CM_WKUP_REGS                     (SOC_PRCM_REGS + 0x400)
 #define SOC_CM_DPLL_REGS                     (SOC_PRCM_REGS + 0x500)
@@ -153,7 +157,7 @@ extern "C" {
 #define SOC_PRM_CEFUSE_REGS                  (SOC_PRCM_REGS + 0x1200)
 
 /** @brief Base address of control module memory mapped registers             */
-#define SOC_CONTROL_REGS                     (0x44E10000)
+#define SOC_CONTROL_REGS                     (control_mem)
 
 
 /** @brief Base address of Channel controller  memory mapped registers        */

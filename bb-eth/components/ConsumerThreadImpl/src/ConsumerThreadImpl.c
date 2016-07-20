@@ -16,6 +16,13 @@
 #include "hw_cm_dpll.h"
 #include "dmtimer.h"
 
+
+unsigned int dmtimer7_mem;
+unsigned int prcm_mem;
+unsigned int control_mem;
+
+
+
 #define CONFIG_SWITCH_EXIT_CMD             (2)
 
 static volatile unsigned int flagIsr = 1;
@@ -105,6 +112,7 @@ void DMTimer7ModuleClkConfig(void)
 static void DMTimerIsr(void)
 {
     /* Clear the status of the interrupt flags */
+
     DMTimerIntStatusClear(SOC_DMTIMER_7_REGS, DMTIMER_INT_OVF_EN_FLAG);
 
     DMTimerDisable(SOC_DMTIMER_7_REGS);
@@ -226,6 +234,11 @@ int run(void)
    unsigned int ipAddr;
    unsigned int initFlg = 1;
    LWIP_IF lwipIfPort1, lwipIfPort2;
+
+   dmtimer7_mem = (unsigned int) timer7reg;
+   prcm_mem = (unsigned int) prcm_reg;
+   control_mem = (unsigned int) control_reg;
+
 
 #ifdef LWIP_CACHE_ENABLED
 //   CacheEnable(CACHE_ALL);
