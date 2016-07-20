@@ -14,6 +14,8 @@ component UART{
 assembly {
   composition {
     	component Timerbase timerbase;
+    	component Timerbase timer7;
+    	component prcm prcm;
     	component Timer timer;
     	component UART drv;
 		
@@ -27,6 +29,12 @@ assembly {
 	connection seL4HardwareMMIO timer_mem (from timer.reg, to timerbase.reg);
         connection seL4HardwareInterrupt timer_irq (from timerbase.irq, to timer.irq);
 
+	connection seL4HardwareMMIO prcm_mem (from Cons_PingMe.prcm_reg, to prcm.prcm_reg);
+	connection seL4HardwareMMIO control_mem (from Cons_PingMe.control_reg, to prcm.control_reg);
+
+	connection seL4HardwareMMIO timer7_mem (from Cons_PingMe.timer7reg, to timer7.reg);
+        connection seL4HardwareInterrupt timer7_irq (from timer7.irq, to Cons_PingMe.timer7irq);
+
 	}
 	
 	configuration {
@@ -38,6 +46,13 @@ connection0.to_access = "R";
 
 timerbase.reg_attributes = "0x48040000:0x1000";
 timerbase.irq_attributes = 68;        
+
+timer7.reg_attributes = "0x4804A000:0x1000";
+timer7.irq_attributes = 95;        
+
+prcm.prcm_reg_attributes = "0x44E00000:0x1000";
+prcm.control_reg_attributes = "0x44E10000:0x1000";
+
 drv.mem_attributes       = "0x48022000:0x1000";
 //drv.mem_attributes       = "0x44E09000:0x1000";
 

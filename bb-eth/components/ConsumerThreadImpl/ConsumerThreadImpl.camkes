@@ -1,4 +1,11 @@
 
+component prcm
+{
+  hardware;
+  dataport Buf prcm_reg;
+  dataport Buf control_reg;
+}
+
 component ConsumerThreadImpl
 {
 	include "generatedtypes.h";
@@ -6,5 +13,11 @@ component ConsumerThreadImpl
 	dataport simpletype data_sink;
 	consumes sig activator;
     	dataport Buf uartmem;
+
+	dataport Buf            timer7reg;
+	dataport Buf            prcm_reg;
+	dataport Buf            control_reg;
+	consumes DataAvailable  timer7irq;
+	has mutex	 	irqmux;
 }
 
