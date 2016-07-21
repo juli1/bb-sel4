@@ -35,6 +35,9 @@ assembly {
 	connection seL4HardwareMMIO timer7_mem (from Cons_PingMe.timer7reg, to timer7.reg);
         connection seL4HardwareInterrupt timer7_irq (from timer7.irq, to Cons_PingMe.timer7irq);
 
+        connection seL4HardwareInterrupt netrx_irq (from prcm.ethrx, to Cons_PingMe.ethrx);
+        connection seL4HardwareInterrupt nettx_irq (from prcm.ethtx, to Cons_PingMe.ethtx);
+
 	}
 	
 	configuration {
@@ -52,6 +55,9 @@ timer7.irq_attributes = 95;
 
 prcm.prcm_reg_attributes = "0x44E00000:0x1000";
 prcm.control_reg_attributes = "0x44E10000:0x1000";
+
+prcm.ethrx_attributes = 41;
+prcm.ethtx_attributes = 42;
 
 drv.mem_attributes       = "0x48022000:0x1000";
 //drv.mem_attributes       = "0x44E09000:0x1000";

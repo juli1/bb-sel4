@@ -4,6 +4,8 @@ component prcm
   hardware;
   dataport Buf prcm_reg;
   dataport Buf control_reg;
+  emits DataAvailable ethtx;
+  emits DataAvailable ethrx;
 }
 
 component ConsumerThreadImpl
@@ -13,6 +15,9 @@ component ConsumerThreadImpl
 	dataport simpletype data_sink;
 	consumes sig activator;
     	dataport Buf uartmem;
+
+  	consumes DataAvailable ethrx;
+  	consumes DataAvailable ethtx;
 
 	dataport Buf            timer7reg;
 	dataport Buf            prcm_reg;

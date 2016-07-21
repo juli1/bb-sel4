@@ -27,6 +27,18 @@ unsigned int control_mem;
 
 static volatile unsigned int flagIsr = 1;
 
+static void CPSWCore0RxIsr(void)
+{
+    lwIPRxIntHandler(0);
+}
+
+/*
+** Interrupt Handler for Core 0 Transmit interrupt
+*/
+static void CPSWCore0TxIsr(void)
+{
+    lwIPTxIntHandler(0);
+}
 
 void DMTimer7ModuleClkConfig(void)
 {
