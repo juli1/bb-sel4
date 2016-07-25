@@ -265,15 +265,29 @@ int run(void)
 
 ss_mem = (unsigned int) ss_reg;
 mdio_mem = (unsigned int) mdio_reg;
+cppi_ram_mem = (unsigned int) cppi_ram_reg;
+
+wr_mem = (unsigned int) mdio_mem + 0x200;;
+
+cpdma_mem = (unsigned int) ss_mem + 0x800;
+ale_mem = (unsigned int) ss_mem + 0xD00;
+port0_mem = (unsigned int) ss_mem + 0x100;
+port1_mem = (unsigned int) ss_mem + 0x200;
+silver1_mem = (unsigned int) ss_mem + 0xD80;
+port2_mem = (unsigned int) ss_mem + 0x300;
+silver2_mem = (unsigned int) ss_mem + 0xDC0;
+
+
+/*
 wr_mem = (unsigned int) wr_reg;
 cpdma_mem = (unsigned int) cpdma_reg;
 ale_mem = (unsigned int) ale_reg;
-cppi_ram_mem = (unsigned int) cppi_ram_reg;
 port0_mem = (unsigned int) port0_reg;
 port1_mem = (unsigned int) port1_reg;
 silver1_mem = (unsigned int) silver1_reg;
 port2_mem = (unsigned int) port2_reg;
 silver2_mem = (unsigned int) silver2_reg;
+*/
 
 
 

@@ -22,16 +22,18 @@ component prcm
 
   dataport Buf ss_reg;
   dataport Buf mdio_reg;
+  dataport Buf cppi_ram_reg;
+
+/*
   dataport Buf wr_reg;
   dataport Buf cpdma_reg;
   dataport Buf ale_reg;
-  dataport Buf cppi_ram_reg;
   dataport Buf port0_reg;
   dataport Buf port1_reg;
   dataport Buf silver1_reg;
   dataport Buf port2_reg;
   dataport Buf silver2_reg;
-
+*/
   emits DataAvailable ethtx;
   emits DataAvailable ethrx;
 }
@@ -55,15 +57,18 @@ component ConsumerThreadImpl
 
   dataport Buf ss_reg;
   dataport Buf mdio_reg;
+  dataport Buf cppi_ram_reg;
+
+/*
   dataport Buf wr_reg;
   dataport Buf cpdma_reg;
   dataport Buf ale_reg;
-  dataport Buf cppi_ram_reg;
   dataport Buf port0_reg;
   dataport Buf port1_reg;
   dataport Buf silver1_reg;
   dataport Buf port2_reg;
   dataport Buf silver2_reg;
+*/
 
 
 }

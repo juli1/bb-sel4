@@ -65,7 +65,8 @@
 
 /* CPPI RAM size in bytes */
 #ifndef SIZE_CPPI_RAM
-#define SIZE_CPPI_RAM                            0x2000
+//#define SIZE_CPPI_RAM                            0x2000
+#define SIZE_CPPI_RAM                            0x1000
 #endif
  
 #define PORT_1                                   0x0
