@@ -10,7 +10,7 @@
 ** For Example, for IP Address 192.168.247.1, use the corresponding hex
 ** value 0xC0A8F701.
 */
-#define STATIC_IP_ADDRESS_PORT1         0
+#define STATIC_IP_ADDRESS_PORT1         0xC0A80102
 #define STATIC_IP_ADDRESS_PORT2         0
 
 /*

@@ -21,6 +21,18 @@ unsigned int dmtimer7_mem;
 unsigned int prcm_mem;
 unsigned int control_mem;
 
+unsigned int ss_mem;
+unsigned int mdio_mem;
+unsigned int wr_mem;
+unsigned int cpdma_mem;
+unsigned int ale_mem;
+unsigned int cppi_ram_mem;
+unsigned int port0_mem;
+unsigned int port1_mem;
+unsigned int silver1_mem;
+unsigned int port2_mem;
+unsigned int silver2_mem;
+
 
 
 #define CONFIG_SWITCH_EXIT_CMD             (2)
@@ -251,6 +263,19 @@ int run(void)
    prcm_mem = (unsigned int) prcm_reg;
    control_mem = (unsigned int) control_reg;
 
+ss_mem = (unsigned int) ss_reg;
+mdio_mem = (unsigned int) mdio_reg;
+wr_mem = (unsigned int) wr_reg;
+cpdma_mem = (unsigned int) cpdma_reg;
+ale_mem = (unsigned int) ale_reg;
+cppi_ram_mem = (unsigned int) cppi_ram_reg;
+port0_mem = (unsigned int) port0_reg;
+port1_mem = (unsigned int) port1_reg;
+silver1_mem = (unsigned int) silver1_reg;
+port2_mem = (unsigned int) port2_reg;
+silver2_mem = (unsigned int) silver2_reg;
+
+
 
 #ifdef LWIP_CACHE_ENABLED
 //   CacheEnable(CACHE_ALL);
@@ -265,6 +290,9 @@ int run(void)
    /* Get the MAC address */
    EVMMACAddrGet(0, lwipIfPort1.macArray); 
    EVMMACAddrGet(1, lwipIfPort2.macArray); 
+
+printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort1.macArray[0], lwipIfPort1.macArray[1], lwipIfPort1.macArray[2], lwipIfPort1.macArray[3], lwipIfPort1.macArray[4] , lwipIfPort1.macArray[5]);
+printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort2.macArray[0], lwipIfPort2.macArray[1], lwipIfPort2.macArray[2], lwipIfPort2.macArray[3], lwipIfPort2.macArray[4] , lwipIfPort2.macArray[5]);
 
    // FIXME: look at this function and setup correctly the IRQ
    //AintcCPSWIntrSetUp();

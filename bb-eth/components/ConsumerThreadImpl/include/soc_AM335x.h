@@ -52,6 +52,20 @@ extern unsigned int prcm_mem;
 extern unsigned int control_mem;
 extern unsigned int dmtimer7_mem;
 
+extern unsigned int ss_mem;
+extern unsigned int mdio_mem;
+extern unsigned int wr_mem;
+extern unsigned int cpdma_mem;
+extern unsigned int ale_mem;
+extern unsigned int cppi_ram_mem;
+extern unsigned int port0_mem;
+extern unsigned int port1_mem;
+extern unsigned int silver1_mem;
+extern unsigned int port2_mem;
+extern unsigned int silver2_mem;
+
+
+
 /** Cache Line size in ARM Cortex-A8.                                         */
 #define SOC_CACHELINE_SIZE_MAX               (64)
 
@@ -110,6 +124,19 @@ extern unsigned int dmtimer7_mem;
 #define SOC_WDT_1_REGS                       (0x44E35000)
 
 /** @brief Base address of WDT memory mapped registers                        */
+/*
+#define SOC_CPSW_SS_REGS                     (ss_mem)
+#define SOC_CPSW_MDIO_REGS                   (mdio_mem)
+#define SOC_CPSW_WR_REGS                     (wr_mem)
+#define SOC_CPSW_CPDMA_REGS                  (cpdma_mem)
+#define SOC_CPSW_ALE_REGS                    (ale_mem)
+#define SOC_CPSW_PORT_0_REGS                 (port0_mem)
+#define SOC_CPSW_PORT_1_REGS                 (port1_mem)
+#define SOC_CPSW_SLIVER_1_REGS               (silver1_mem)
+#define SOC_CPSW_PORT_2_REGS                 (port2_mem)
+#define SOC_CPSW_SLIVER_2_REGS               (silver2_mem)
+#define SOC_CPSW_CPPI_RAM_REGS               (cppi_ram_mem)
+
 #define SOC_CPSW_SS_REGS                     (0x4A100000)
 #define SOC_CPSW_MDIO_REGS                   (0x4A101000)
 #define SOC_CPSW_WR_REGS                     (0x4A101200)
@@ -122,6 +149,20 @@ extern unsigned int dmtimer7_mem;
 #define SOC_CPSW_PORT_2_REGS                 (0x4A100300)
 #define SOC_CPSW_SLIVER_2_REGS               (0x4A100DC0)
 #define SOC_CPSW_CPPI_RAM_REGS               (0x4A102000)
+*/
+
+#define SOC_CPSW_SS_REGS                     (ss_mem)
+#define SOC_CPSW_MDIO_REGS                   (mdio_mem)
+#define SOC_CPSW_WR_REGS                     (wr_mem)
+#define SOC_CPSW_CPDMA_REGS                  (cpdma_mem)
+#define SOC_CPSW_ALE_REGS                    (ale_mem)
+#define SOC_CPSW_PORT_0_REGS                 (port0_mem)
+#define SOC_CPSW_PORT_1_REGS                 (port1_mem)
+#define SOC_CPSW_SLIVER_1_REGS               (silver1_mem)
+#define SOC_CPSW_PORT_2_REGS                 (port2_mem)
+#define SOC_CPSW_SLIVER_2_REGS               (silver2_mem)
+#define SOC_CPSW_CPPI_RAM_REGS               (cppi_ram_mem)
+
 
 /** @brief Base address of McASP memory mapped registers                      */
 #define SOC_MCASP_0_CTRL_REGS                (0x48038000)

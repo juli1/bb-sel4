@@ -32,6 +32,18 @@ assembly {
 	connection seL4HardwareMMIO prcm_mem (from Cons_PingMe.prcm_reg, to prcm.prcm_reg);
 	connection seL4HardwareMMIO control_mem (from Cons_PingMe.control_reg, to prcm.control_reg);
 
+	connection seL4HardwareMMIO ss_mem (from Cons_PingMe.ss_reg, to prcm.ss_reg);
+	connection seL4HardwareMMIO mdio_mem (from Cons_PingMe.mdio_reg, to prcm.mdio_reg);
+	connection seL4HardwareMMIO wr_mem (from Cons_PingMe.wr_reg, to prcm.wr_reg);
+	connection seL4HardwareMMIO cpdma_mem (from Cons_PingMe.cpdma_reg, to prcm.cpdma_reg);
+	connection seL4HardwareMMIO ale_mem (from Cons_PingMe.ale_reg, to prcm.ale_reg);
+	connection seL4HardwareMMIO cppi_ram_mem (from Cons_PingMe.cppi_ram_reg, to prcm.cppi_ram_reg);
+	connection seL4HardwareMMIO port0_mem (from Cons_PingMe.port0_reg, to prcm.port0_reg);
+	connection seL4HardwareMMIO port1_mem (from Cons_PingMe.port1_reg, to prcm.port1_reg);
+	connection seL4HardwareMMIO silver1_mem (from Cons_PingMe.silver1_reg, to prcm.silver1_reg);
+	connection seL4HardwareMMIO port2_mem (from Cons_PingMe.port2_reg, to prcm.port2_reg);
+	connection seL4HardwareMMIO silver2_mem (from Cons_PingMe.silver2_reg, to prcm.silver2_reg);
+
 	connection seL4HardwareMMIO timer7_mem (from Cons_PingMe.timer7reg, to timer7.reg);
         connection seL4HardwareInterrupt timer7_irq (from timer7.irq, to Cons_PingMe.timer7irq);
 
@@ -55,6 +67,18 @@ timer7.irq_attributes = 95;
 
 prcm.prcm_reg_attributes = "0x44E00000:0x1000";
 prcm.control_reg_attributes = "0x44E10000:0x1000";
+
+prcm.ss_reg_attributes = "0x4A100000:0x1000";
+prcm.mdio_reg_attributes = "0x4A101000:0x1000";
+prcm.wr_reg_attributes = "0x4A101200:0x1000";
+prcm.cpdma_reg_attributes = "0x4A100800:0x1000";
+prcm.ale_reg_attributes = "0x4A100D00:0x1000";
+prcm.cppi_ram_reg_attributes = "0x4A102000:0x1000";
+prcm.port0_reg_attributes = "0x4A100100:0x1000";
+prcm.port1_reg_attributes = "0x4A100200:0x1000";
+prcm.silver1_reg_attributes = "0x4A100D80:0x1000";
+prcm.port2_reg_attributes = "0x4A100300:0x1000";
+prcm.silver2_reg_attributes = "0x4A100DC0:0x1000";
 
 prcm.ethrx_attributes = 41;
 prcm.ethtx_attributes = 42;
