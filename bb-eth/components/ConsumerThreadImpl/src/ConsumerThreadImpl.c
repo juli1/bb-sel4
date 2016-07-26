@@ -39,16 +39,18 @@ unsigned int silver2_mem;
 
 static volatile unsigned int flagIsr = 1;
 
-static void CPSWCore0RxIsr(void)
+static void CPSWCore0RxIsr(void* unused)
 {
+printf("isr rx\n");
     lwIPRxIntHandler(0);
 }
 
 /*
 ** Interrupt Handler for Core 0 Transmit interrupt
 */
-static void CPSWCore0TxIsr(void)
+static void CPSWCore0TxIsr(void* unused)
 {
+printf("isr tx\n");
     lwIPTxIntHandler(0);
 }
 
@@ -203,6 +205,39 @@ void DelayTimerSetup(void)
 
 }
 
+// int ethtx_reg_callback(void (*callback)(void*), void *arg)
+//int ethrx_reg_callback(void (*callback)(void*), void *arg)
+
+static void AintcCPSWIntrSetUp(void)
+{
+   
+  ethtx_reg_callback(CPSWCore0TxIsr, NULL);
+  ethrx_reg_callback(CPSWCore0RxIsr, NULL);
+}
+
+    /* Enable IRQ for ARM (in CPSR)*/
+//    IntMasterIRQEnable();
+//
+//    IntAINTCInit();
+//    
+//    /* Register the Receive ISR for Core 0 */
+//    IntRegister(SYS_INT_3PGSWRXINT0, CPSWCore0RxIsr);
+  
+    /* Register the Transmit ISR for Core 0 */
+//    IntRegister(SYS_INT_3PGSWTXINT0, CPSWCore0TxIsr);
+    
+    /* Set the priority */
+//    IntPrioritySet(SYS_INT_3PGSWTXINT0, 0, AINTC_HOSTINT_ROUTE_IRQ);
+//    IntPrioritySet(SYS_INT_3PGSWRXINT0, 0, AINTC_HOSTINT_ROUTE_IRQ);
+
+    /* Enable the system interrupt */
+//    IntSystemEnable(SYS_INT_3PGSWTXINT0);
+//    IntSystemEnable(SYS_INT_3PGSWRXINT0);
+//}
+
+
+
+
 //static void AintcCPSWIntrSetUp(void)
 //{
 //    /* Enable IRQ for ARM (in CPSR)*/
@@ -245,9 +280,74 @@ void EVMMACAddrGet(unsigned int addrIdx, unsigned char *macAddr);
 static CPSW_PHY_PARAM_IF cpswPhyParam;
 static CPSW_CONF_IF cpswConfig;
 
+#define TIMER_INITIAL_COUNT             (0xFFFFA23Fu)
+/* The Input clock is selected as 24MHz. So for 1ms set the count to 0x5DC0. 
+ *If the input clock is changed to different source this value has to be updated 
+ *accordingly. 
+*/
+#define TIMER_1MS_COUNT                 (0x5DC0u) 
+#define TIMER_OVERFLOW                  (0xFFFFFFFFu)
+
+#define DMTIMER_TCRR   (0x3C)
+
+
+#define DMTIMER_TWPS_W_PEND_TCRR   (0x00000002u)
+#define DMTIMER_WRITE_POST_TCRR              (DMTIMER_TWPS_W_PEND_TCRR)
+
+
+void DMTimerCounterSet(unsigned int baseAdd, unsigned int counter)
+{
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
+
+    /* Set the counter value */
+    HWREG(baseAdd + DMTIMER_TCRR) = counter;
+}
+
+
+void DMTimerEnable(unsigned int baseAdd)
+{
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+
+    /* Start the timer */
+    HWREG(baseAdd + DMTIMER_TCLR) |= DMTIMER_TCLR_ST;
+}
+
+unsigned int DMTimerCounterGet(unsigned int baseAdd)
+{
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
+
+    /* Read the counter value from TCRR */
+    return (HWREG(baseAdd + DMTIMER_TCRR));
+}
+
+
+void DMTimerDisable(unsigned int baseAdd)
+{
+    /* Wait for previous write to complete */
+    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+
+    /* Stop the timer */
+    HWREG(baseAdd + DMTIMER_TCLR) &= ~DMTIMER_TCLR_ST;
+}
+
+
+
+
+
 void delay(unsigned int milliSec)
 {
-printf("Need to implement delay function\n");
+    while(milliSec != 0)
+    {
+        DMTimerCounterSet(SOC_DMTIMER_7_REGS, 0);
+        DMTimerEnable(SOC_DMTIMER_7_REGS);
+        while(DMTimerCounterGet(SOC_DMTIMER_7_REGS) < TIMER_1MS_COUNT);
+        DMTimerDisable(SOC_DMTIMER_7_REGS);
+        milliSec--;
+    }
+
 }
 
 
@@ -309,7 +409,7 @@ printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort1.macArray[0], lwipIfPort1.mac
 printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort2.macArray[0], lwipIfPort2.macArray[1], lwipIfPort2.macArray[2], lwipIfPort2.macArray[3], lwipIfPort2.macArray[4] , lwipIfPort2.macArray[5]);
 
    // FIXME: look at this function and setup correctly the IRQ
-   //AintcCPSWIntrSetUp();
+   AintcCPSWIntrSetUp();
    DelayTimerSetup();
 
    printf ("\n\rStarterWare Ethernet Application. Access the"
@@ -351,6 +451,7 @@ printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort2.macArray[0], lwipIfPort2.mac
       printf("\n\r\n\rPort 1 IP Address Acquisition Failed.");
    }
 
+printf("plop\n");
    /* Initialize the sample httpd server. */
 //   httpd_init();
 

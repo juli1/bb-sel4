@@ -262,7 +262,7 @@ unsigned int lwIPInit(LWIP_IF *lwipIf)
         autoip_start(&cpswNetIF[ifNum]);
     }
 #endif
-
+printf("here1\n");
     if((lwipIf->ipMode == IPADDR_USE_STATIC)
        ||(lwipIf->ipMode == IPADDR_USE_AUTOIP))
     {
@@ -270,7 +270,10 @@ unsigned int lwIPInit(LWIP_IF *lwipIf)
        netif_set_up(&cpswNetIF[ifNum]);
     }
   
+printf("here2\n");
     ipAddrPtr = (unsigned int*)&(cpswNetIF[ifNum].ip_addr);
+
+printf("here3\n");
 
     return (*ipAddrPtr);
 }
