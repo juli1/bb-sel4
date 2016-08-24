@@ -22,7 +22,8 @@ component prcm
 
   dataport Buf ss_reg;
   dataport Buf mdio_reg;
-  dataport Buf cppi_ram_reg;
+  dataport Bigbuf cppi_ram_reg;
+//  dataport Buf cppi_ram2_reg;
 
 /*
   dataport Buf wr_reg;
@@ -57,7 +58,8 @@ component ConsumerThreadImpl
 
   dataport Buf ss_reg;
   dataport Buf mdio_reg;
-  dataport Buf cppi_ram_reg;
+  dataport Bigbuf cppi_ram_reg;
+//  dataport Buf cppi_ram2_reg;
 
 /*
   dataport Buf wr_reg;

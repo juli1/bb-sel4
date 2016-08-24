@@ -10,6 +10,7 @@ ProducerThreadImpl_HFILES = components/ProducerThreadImpl/include/generatedtypes
 ConsumerThreadImpl_CFILES = components/ConsumerThreadImpl/src/ConsumerThreadImpl.c  \
                             components/ConsumerThreadImpl/src/ping.c i\
                             components/ConsumerThreadImpl/lwip-1.4.0/ports/cpsw/lwiplib.c \
+			    components/ConsumerThreadImpl/lwip-1.4.0/apps/httpserver_raw_io/httpd_io.c \
                             components/ConsumerThreadImpl/src/phy.c \
                             components/ConsumerThreadImpl/src/cpsw.c
 ConsumerThreadImpl_HFILES = components/ConsumerThreadImpl/include/generatedtypes.h \
@@ -24,6 +25,7 @@ Timer_CFILES = components/timer/src/timer.c
 include ${SOURCE_DIR}/../../tools/camkes/camkes.mk
 
 CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/
+CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/apps/httpserver_raw_io/
 CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/ports/cpsw/include/
 CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/ports/cpsw/
 CFLAGS += -I$(SOURCE_DIR)/components/ConsumerThreadImpl/lwip-1.4.0/src/include/ipv4/

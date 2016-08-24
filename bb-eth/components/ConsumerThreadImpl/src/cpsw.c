@@ -38,8 +38,6 @@
 *
 */
 
-extern unsigned int prcm_mem;
-extern unsigned int control_mem;
 
 #include "soc_AM335x.h"
 #include "hw_control_AM335x.h"

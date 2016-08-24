@@ -65,6 +65,7 @@ FIXME JD
 
   IntMasterIRQDisable();
 */
+status = 1;
   return status;
 }
 

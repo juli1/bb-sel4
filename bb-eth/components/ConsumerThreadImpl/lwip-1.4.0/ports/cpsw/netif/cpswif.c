@@ -65,8 +65,8 @@
 
 /* CPPI RAM size in bytes */
 #ifndef SIZE_CPPI_RAM
-//#define SIZE_CPPI_RAM                            0x2000
-#define SIZE_CPPI_RAM                            0x1000
+#define SIZE_CPPI_RAM                            0x2000
+//#define SIZE_CPPI_RAM                            0x1000
 #endif
  
 #define PORT_1                                   0x0
@@ -1934,11 +1934,14 @@ cpswif_inst_init(struct cpswportif *cpswif){
   struct cpswinst *cpswinst = &cpsw_inst_data[inst_num];
 
   /* Reset the different modules */
+/*
+FIXME JD - try something new
   CPSWSSReset(cpswinst->ss_base);
   CPSWWrReset(cpswinst->wrpr_base);
   CPSWSlReset(cpswinst->port[PORT_1].sliver_base);
   CPSWSlReset(cpswinst->port[PORT_2].sliver_base);
   CPSWCPDMAReset(cpswinst->cpdma_base);
+*/
 
   /* Initialize MDIO */
   MDIOInit(cpswinst->mdio_base, MDIO_FREQ_INPUT, MDIO_FREQ_OUTPUT);

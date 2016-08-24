@@ -48,21 +48,23 @@
 extern "C" {
 #endif
 
-extern unsigned int prcm_mem;
-extern unsigned int control_mem;
-extern unsigned int dmtimer7_mem;
+#include <camkes.h>
 
-extern unsigned int ss_mem;
-extern unsigned int mdio_mem;
-extern unsigned int wr_mem;
-extern unsigned int cpdma_mem;
-extern unsigned int ale_mem;
-extern unsigned int cppi_ram_mem;
-extern unsigned int port0_mem;
-extern unsigned int port1_mem;
-extern unsigned int silver1_mem;
-extern unsigned int port2_mem;
-extern unsigned int silver2_mem;
+extern volatile unsigned int prcm_mem;
+extern volatile unsigned int control_mem;
+extern volatile unsigned int dmtimer7_mem;
+
+extern volatile unsigned int ss_mem;
+extern volatile unsigned int mdio_mem;
+extern volatile unsigned int wr_mem;
+extern volatile unsigned int cpdma_mem;
+extern volatile unsigned int ale_mem;
+extern volatile unsigned int cppi_ram_mem;
+extern volatile unsigned int port0_mem;
+extern volatile unsigned int port1_mem;
+extern volatile unsigned int silver1_mem;
+extern volatile unsigned int port2_mem;
+extern volatile unsigned int silver2_mem;
 
 
 
@@ -151,6 +153,7 @@ extern unsigned int silver2_mem;
 #define SOC_CPSW_CPPI_RAM_REGS               (0x4A102000)
 */
 
+/*
 #define SOC_CPSW_SS_REGS                     (ss_mem)
 #define SOC_CPSW_MDIO_REGS                   (mdio_mem)
 #define SOC_CPSW_WR_REGS                     (wr_mem)
@@ -162,6 +165,25 @@ extern unsigned int silver2_mem;
 #define SOC_CPSW_PORT_2_REGS                 (port2_mem)
 #define SOC_CPSW_SLIVER_2_REGS               (silver2_mem)
 #define SOC_CPSW_CPPI_RAM_REGS               (cppi_ram_mem)
+*/
+
+#define SOC_CPSW_MDIO_REGS                   ((unsigned int) mdio_reg)
+#define SOC_CPSW_WR_REGS                     (SOC_CPSW_MDIO_REGS + 0x200)
+
+#define SOC_CPSW_SS_REGS                     ((unsigned int) ss_reg )
+
+#define SOC_CPSW_PORT_0_REGS                 (SOC_CPSW_SS_REGS + 0x100)
+#define SOC_CPSW_PORT_1_REGS                 (SOC_CPSW_SS_REGS + 0x200)
+#define SOC_CPSW_PORT_2_REGS                 (SOC_CPSW_SS_REGS + 0x300)
+#define SOC_CPSW_CPDMA_REGS                  (SOC_CPSW_SS_REGS + 0x800)
+#define SOC_CPSW_ALE_REGS                    (SOC_CPSW_SS_REGS + 0xD00)
+#define SOC_CPSW_SLIVER_1_REGS               (SOC_CPSW_SS_REGS + 0xD80)
+#define SOC_CPSW_SLIVER_2_REGS               (SOC_CPSW_SS_REGS + 0xDC0)
+
+#define SOC_CPSW_CPPI_RAM_REGS               ((unsigned int) cppi_ram_reg)
+
+
+
 
 
 /** @brief Base address of McASP memory mapped registers                      */

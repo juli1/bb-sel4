@@ -36,6 +36,7 @@ assembly {
 	connection seL4HardwareMMIO mdio_mem (from Cons_PingMe.mdio_reg, to prcm.mdio_reg);
 	connection seL4HardwareMMIO cppi_ram_mem (from Cons_PingMe.cppi_ram_reg, to prcm.cppi_ram_reg);
 /*
+	connection seL4HardwareMMIO cppi_ram2_mem (from Cons_PingMe.cppi_ram2_reg, to prcm.cppi_ram2_reg);
 	connection seL4HardwareMMIO wr_mem (from Cons_PingMe.wr_reg, to prcm.wr_reg);
 	connection seL4HardwareMMIO cpdma_mem (from Cons_PingMe.cpdma_reg, to prcm.cpdma_reg);
 	connection seL4HardwareMMIO ale_mem (from Cons_PingMe.ale_reg, to prcm.ale_reg);
@@ -69,6 +70,7 @@ timer7.irq_attributes = 95;
 
 prcm.prcm_reg_attributes         = "0x44E00000:0x1000";
 prcm.control_reg_attributes      = "0x44E10000:0x1000";
+
 prcm.ss_reg_attributes 	         = "0x4A100000:0x1000";
 
 //prcm.port0_reg_attributes      = "0x4A100100:0x100";
@@ -79,10 +81,11 @@ prcm.ss_reg_attributes 	         = "0x4A100000:0x1000";
 //prcm.silver1_reg_attributes    = "0x4A100D80:0x10";
 //prcm.silver2_reg_attributes    = "0x4A100DC0:0x10";
 
-prcm.mdio_reg_attributes       = "0x4A101000:0x1000";
+prcm.mdio_reg_attributes         = "0x4A101000:0x1000";
 //prcm.wr_reg_attributes         = "0x4A101200:0x100";
 
-prcm.cppi_ram_reg_attributes   = "0x4A102000:0x1000";
+prcm.cppi_ram_reg_attributes   = "0x4A102000:0x2000";
+//prcm.cppi_ram2_reg_attributes   = "0x4A103000:0x1000";
 
 prcm.ethrx_attributes = 41;
 prcm.ethtx_attributes = 42;

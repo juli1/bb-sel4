@@ -17,21 +17,21 @@
 #include "dmtimer.h"
 
 
-unsigned int dmtimer7_mem;
-unsigned int prcm_mem;
-unsigned int control_mem;
+volatile unsigned int dmtimer7_mem;
+volatile unsigned int prcm_mem;
+volatile unsigned int control_mem;
 
-unsigned int ss_mem;
-unsigned int mdio_mem;
-unsigned int wr_mem;
-unsigned int cpdma_mem;
-unsigned int ale_mem;
-unsigned int cppi_ram_mem;
-unsigned int port0_mem;
-unsigned int port1_mem;
-unsigned int silver1_mem;
-unsigned int port2_mem;
-unsigned int silver2_mem;
+volatile unsigned int ss_mem;
+volatile unsigned int mdio_mem;
+volatile unsigned int wr_mem;
+volatile unsigned int cpdma_mem;
+volatile unsigned int ale_mem;
+volatile unsigned int cppi_ram_mem;
+volatile unsigned int port0_mem;
+volatile unsigned int port1_mem;
+volatile unsigned int silver1_mem;
+volatile unsigned int port2_mem;
+volatile unsigned int silver2_mem;
 
 
 
@@ -135,16 +135,14 @@ void DMTimer7ModuleClkConfig(void)
             CM_PER_L4LS_CLKSTCTRL_CLKACTIVITY_TIMER7_GCLK)));
 }
 
+/*
 static void DMTimerIsr(void)
 {
-    /* Clear the status of the interrupt flags */
-
     DMTimerIntStatusClear(SOC_DMTIMER_7_REGS, DMTIMER_INT_OVF_EN_FLAG);
-
     DMTimerDisable(SOC_DMTIMER_7_REGS);
-
     flagIsr = TRUE;
 }
+*/
 
 unsigned int DMTimerWritePostedStatusGet(unsigned int baseAdd)
 {
@@ -210,7 +208,6 @@ void DelayTimerSetup(void)
 
 static void AintcCPSWIntrSetUp(void)
 {
-   
   ethtx_reg_callback(CPSWCore0TxIsr, NULL);
   ethrx_reg_callback(CPSWCore0RxIsr, NULL);
 }
@@ -360,23 +357,37 @@ int run(void)
    LWIP_IF lwipIfPort1, lwipIfPort2;
 
    dmtimer7_mem = (unsigned int) timer7reg;
-   prcm_mem = (unsigned int) prcm_reg;
-   control_mem = (unsigned int) control_reg;
+   prcm_mem     = (unsigned int) prcm_reg;
+   control_mem  = (unsigned int) control_reg;
 
-ss_mem = (unsigned int) ss_reg;
-mdio_mem = (unsigned int) mdio_reg;
-cppi_ram_mem = (unsigned int) cppi_ram_reg;
+   mdio_mem     = (unsigned int) mdio_reg;
+   wr_mem       = (unsigned int) mdio_mem + 0x200;
 
-wr_mem = (unsigned int) mdio_mem + 0x200;;
+   ss_mem       = (unsigned int) ss_reg;
+   port0_mem    = (unsigned int) ss_mem + 0x100;
+   port1_mem    = (unsigned int) ss_mem + 0x200;
+   port2_mem    = (unsigned int) ss_mem + 0x300;
+   cpdma_mem    = (unsigned int) ss_mem + 0x800;
+   ale_mem      = (unsigned int) ss_mem + 0xD00;
+   silver1_mem  = (unsigned int) ss_mem + 0xD80;
+   silver2_mem  = (unsigned int) ss_mem + 0xDC0;
 
-cpdma_mem = (unsigned int) ss_mem + 0x800;
-ale_mem = (unsigned int) ss_mem + 0xD00;
-port0_mem = (unsigned int) ss_mem + 0x100;
-port1_mem = (unsigned int) ss_mem + 0x200;
-silver1_mem = (unsigned int) ss_mem + 0xD80;
-port2_mem = (unsigned int) ss_mem + 0x300;
-silver2_mem = (unsigned int) ss_mem + 0xDC0;
+   cppi_ram_mem = (unsigned int) cppi_ram_reg;
 
+   printf ("ss = 0x%x\n", ss_mem);
+   printf ("cpdma = 0x%x\n", cpdma_mem);
+   printf ("ale = 0x%x\n", ale_mem);
+   printf ("port0 = 0x%x\n", port0_mem);
+   printf ("port1 = 0x%x\n", port1_mem);
+   printf ("port2 = 0x%x\n", port2_mem);
+   printf ("silver1 = 0x%x\n", silver1_mem);
+   printf ("silver2 = 0x%x\n", silver2_mem);
+
+
+   printf ("mdio = 0x%x\n", mdio_mem);
+   printf ("wr = 0x%x\n", wr_mem);
+
+   printf ("cppi = 0x%x\n", cppi_ram_mem);
 
 /*
 wr_mem = (unsigned int) wr_reg;
@@ -459,7 +470,7 @@ printf("plop\n");
    /* Loop forever.  All the work is done in interrupt handlers. */
    while(1)
    {
-      ; /* Perform nothing */
+	;
    }
 
    return 0;
