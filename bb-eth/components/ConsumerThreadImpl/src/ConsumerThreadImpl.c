@@ -43,6 +43,8 @@ static void CPSWCore0RxIsr(void* unused)
 {
 printf("isr rx\n");
     lwIPRxIntHandler(0);
+
+  ethrx_reg_callback(CPSWCore0RxIsr, NULL);
 }
 
 /*
@@ -52,6 +54,7 @@ static void CPSWCore0TxIsr(void* unused)
 {
 printf("isr tx\n");
     lwIPTxIntHandler(0);
+  ethtx_reg_callback(CPSWCore0TxIsr, NULL);
 }
 
 void DMTimer7ModuleClkConfig(void)
@@ -405,6 +408,7 @@ silver2_mem = (unsigned int) silver2_reg;
 #ifdef LWIP_CACHE_ENABLED
 //   CacheEnable(CACHE_ALL);
 #endif
+   AintcCPSWIntrSetUp();
 
 //   CPSWPinMuxSetup();
    CPSWClkEnable();
@@ -420,7 +424,6 @@ printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort1.macArray[0], lwipIfPort1.mac
 printf ("MACADDR1 %x:%x:%x:%x:%x:%x\n", lwipIfPort2.macArray[0], lwipIfPort2.macArray[1], lwipIfPort2.macArray[2], lwipIfPort2.macArray[3], lwipIfPort2.macArray[4] , lwipIfPort2.macArray[5]);
 
    // FIXME: look at this function and setup correctly the IRQ
-   AintcCPSWIntrSetUp();
    DelayTimerSetup();
 
    printf ("\n\rStarterWare Ethernet Application. Access the"
