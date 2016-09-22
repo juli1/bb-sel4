@@ -39,7 +39,7 @@ volatile unsigned int silver2_mem;
 
 static volatile unsigned int flagIsr = 1;
 
-static void CPSWCore0RxIsr(void* unused)
+static void CPSWCore0RxIsr(void *_ UNUSED)
 {
 printf("isr rx\n");
     lwIPRxIntHandler(0);
@@ -50,7 +50,7 @@ printf("isr rx\n");
 /*
 ** Interrupt Handler for Core 0 Transmit interrupt
 */
-static void CPSWCore0TxIsr(void* unused)
+static void CPSWCore0TxIsr(void *_ UNUSED)
 {
 printf("isr tx\n");
     lwIPTxIntHandler(0);
@@ -408,13 +408,17 @@ silver2_mem = (unsigned int) silver2_reg;
 #ifdef LWIP_CACHE_ENABLED
 //   CacheEnable(CACHE_ALL);
 #endif
+   printf ("intr setup\n");
    AintcCPSWIntrSetUp();
+   printf ("clkenable\n");
 
-//   CPSWPinMuxSetup();
+   CPSWPinMuxSetup();
    CPSWClkEnable();
 
+   printf ("mii select\n");
    /* Chip configuration RGMII selection */
    EVMPortMIIModeSelect();
+   printf ("mac addr\n");
 
    /* Get the MAC address */
    EVMMACAddrGet(0, lwipIfPort1.macArray); 
